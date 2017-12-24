@@ -6,11 +6,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "function.h"
-#include <sys/sysinfo.h>
+
+
+#include "que.h"
 
 
 
-
-
-#endif //MAIN_H
+#endif

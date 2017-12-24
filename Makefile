@@ -9,10 +9,9 @@ DEPS := $(OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+LDFLAGS := -lm
 
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
-
-LDFLAGS ?= -lm
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
@@ -32,10 +31,19 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+
 .PHONY: clean
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+
+test:
+	$(shell valgrind --leak-check=yes ./build/a.out)
+
+memory:
+	$(shell valgrind --tool=massif ./build/a.out)
+
+
 
 -include $(DEPS)
 
